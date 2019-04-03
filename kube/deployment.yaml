@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: render
+  name: render
+  namespace: mynamespace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: render
+  template:
+    metadata:
+      labels:
+        app: render
+    spec:
+      containers:
+      - name: render
+        image: paulvarache/render
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 3000
+          initialDelaySeconds: 10
+          timeoutSeconds: 10

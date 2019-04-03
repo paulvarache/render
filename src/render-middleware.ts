@@ -16,14 +16,14 @@ function parseQuery(queryString : string) : IRequestParams {
             acc[bits[0]] = true;
         }
         return acc;
-    }, {});
+    }, {} as IRequestParams);
 }
 
 export function renderMiddleware() : connect.NextHandleFunction {
-    return (req, res, next) => {
-        const parsed = url.parse(req.url);
+    return (req, res) => {
+        const parsed = url.parse(req.url || '');
         const { query } = parsed;
-        const params = parseQuery(query);
+        const params = parseQuery(query || '');
         if (typeof params.url !== 'string') {
             res.setHeader('Status', 400);
             res.end(`Could not render: Missing param 'url'`);

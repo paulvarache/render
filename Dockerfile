@@ -25,6 +25,7 @@ COPY . /app
 
 # Run everything after as non-privileged user.
 USER pptruser
+
 CMD yarn start
 
 EXPOSE 3000
