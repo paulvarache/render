@@ -28,10 +28,17 @@ export function renderMiddleware() : connect.NextHandleFunction {
             res.setHeader('Status', 400);
             res.end(`Could not render: Missing param 'url'`);
         }
+        console.log(`Requested render for '${params.url}'`);
         return render(params.url as string)
             .then((img) => {
+                console.log(`'${params.url}' rendered`);
                 res.setHeader('Content-Type', 'image/png');
                 res.end(img);
+            })
+            .catch((e) => {
+                console.error(e);
+                res.setHeader('Status', 500);
+                res.end(e.message);
             });
     };
 }
